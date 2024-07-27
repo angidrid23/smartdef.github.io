@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartDef</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 16px;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .balance {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .invest { background-color: #4CAF50; color: white; }
+        .deposit { background-color: #2196F3; color: white; }
+        .withdraw { background-color: #f44336; color: white; }
+        .summary {
+            margin-bottom: 20px;
+        }
+        .menu-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: var(--tg-theme-secondary-bg-color, #f0f0f0);
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>SmartDef</h1>
+        <div class="balance">$1,000.00</div>
+    </div>
+
+    <div class="actions">
+        <button class="button invest">Инвестировать</button>
+        <button class="button deposit">Пополнить</button>
+        <button class="button withdraw">Вывести</button>
+    </div>
+
+    <div class="summary">
+        <p>Доходность: +5.2% за неделю</p>
+        <p>Активные инвестиции: 1 стратегия</p>
+    </div>
+
+    <div class="menu">
+        <div class="menu-item">Инвестиции</div>
+        <div class="menu-item">Аналитика</div>
+        <div class="menu-item">Профиль</div>
+    </div>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        // Здесь будет JavaScript код для обработки взаимодействий
+    </script>
+    <script>
+        let tg = window.Telegram.WebApp;
+    
+        // Инициализация приложения
+        tg.expand();
+    
+        // Обработчики кнопок
+        document.querySelector('.invest').addEventListener('click', () => {
+            showScreen('invest');
+        });
+    
+        document.querySelector('.deposit').addEventListener('click', () => {
+            showScreen('deposit');
+        });
+    
+        document.querySelector('.withdraw').addEventListener('click', () => {
+            showScreen('withdraw');
+        });
+    
+        // Обработчики пунктов меню
+        document.querySelectorAll('.menu-item').forEach((item, index) => {
+    item.addEventListener('click', () => {
+        const screens = ['investments', 'analytics', 'profile'];
+        showScreen(screens[index]);
+    });
+});
+    
+        // Функция для показа экранов
+        function showScreen(screenName) {
+    switch(screenName) {
+        case 'invest':
+            window.location.href = 'invest.html';
+            break;
+        case 'deposit':
+            window.location.href = 'deposit.html';
+            break;
+        case 'withdraw':
+            window.location.href = 'withdraw.html';
+            break;
+        case 'analytics':
+            window.location.href = 'analytics.html';
+            break;
+        default:
+            console.log(`Showing ${screenName} screen`);
+            alert(`Переход на экран: ${screenName}`);
+    }
+}
+
+
+function initializeInvestScreen() {
+    document.getElementById('investButton').addEventListener('click', () => {
+        const amount = document.getElementById('amount').value;
+        const pool = document.getElementById('pool').value;
+        if (validateInput(amount, 10, 1000000)) {  // Минимум 10 USD, максимум 1 000 000 USD
+            alert(`Инвестиция ${amount} USDT в пул ${pool} выполнена успешно!`);
+        }
+    });
+
+    document.getElementById('pool').addEventListener('change', (e) => {
+        const yields = {
+            'usdt-usdc': '5.2%',
+            'usdt-dai': '5.5%',
+            'usdc-dai': '5.3%'
+        };
+        document.getElementById('expectedYield').textContent = yields[e.target.value];
+    });
+
+    initializeBackButton();
+}
+
+function initializeDepositScreen() {
+    document.getElementById('depositButton').addEventListener('click', () => {
+        const amount = document.getElementById('amount').value;
+        const method = document.getElementById('method').value;
+        if (validateInput(amount, 10, 100000)) {  // Минимум 10 USD, максимум 100 000 USD
+            alert(`Пополнение на сумму ${amount} USD через ${method} выполнено успешно!`);
+        }
+    });
+
+    initializeBackButton();
+}
+
+function initializeWithdrawScreen() {
+    document.getElementById('withdrawButton').addEventListener('click', () => {
+        const amount = document.getElementById('amount').value;
+        const method = document.getElementById('method').value;
+        if (validateInput(amount, 10, 50000)) {  // Минимум 10 USD, максимум 50 000 USD
+            alert(`Вывод средств на сумму ${amount} USD через ${method} выполнен успешно!`);
+        }
+    });
+
+    initializeBackButton();
+}
+function initializeAnalyticsScreen() {
+    const ctx = document.getElementById('profitChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн'],
+            datasets: [{
+                label: 'Прибыль',
+                data: [12, 19, 3, 5, 2, 3],
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+
+    // Обновление статистики
+    document.getElementById('totalProfit').textContent = '$145';
+    document.getElementById('yield').textContent = '5.8%';
+    document.getElementById('activeInvestments').textContent = '$2500';
+}
+function initializeBackButton() {
+    const backButton = document.getElementById('backButton');
+    if (backButton) {
+        backButton.addEventListener('click', () => {
+            location.reload();
+        });
+    }
+}
+        // Обновление баланса (пример динамического обновления данных)
+        function updateBalance(newBalance) {
+            document.querySelector('.balance').textContent = `$${newBalance.toFixed(2)}`;
+        }
+    
+        // Пример использования: обновление баланса каждые 5 секунд
+        setInterval(() => {
+            const newBalance = 1000 + Math.random() * 100; // Случайное изменение баланса
+            updateBalance(newBalance);
+        }, 5000);
+        //Проверка ввода данных
+        function validateInput(amount, minAmount, maxAmount) {
+    amount = parseFloat(amount);
+    if (isNaN(amount) || amount < minAmount) {
+        alert(`Сумма должна быть не менее ${minAmount} USD`);
+        return false;
+    }
+    if (maxAmount && amount > maxAmount) {
+        alert(`Сумма не может превышать ${maxAmount} USD`);
+        return false;
+    }
+    return true;
+}
+    </script>
+</body>
+</html>

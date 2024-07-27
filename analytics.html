@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartDef - Аналитика</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 16px;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+        .stats {
+            margin-top: 20px;
+        }
+        .stat-item {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <button id="backButton" style="position: absolute; top: 10px; left: 10px;">Назад</button>
+    <div class="header">
+        <h1>Аналитика</h1>
+    </div>
+    <div class="chart-container">
+        <canvas id="profitChart"></canvas>
+    </div>
+    <div class="stats">
+        <div class="stat-item">Общая прибыль: <span id="totalProfit">$0</span></div>
+        <div class="stat-item">Доходность: <span id="yield">0%</span></div>
+        <div class="stat-item">Активные инвестиции: <span id="activeInvestments">$0</span></div>
+    </div>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('profitChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн'],
+                    datasets: [{
+                        label: 'Прибыль',
+                        data: [12, 19, 3, 5, 2, 3],
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            // Обновление статистики
+            document.getElementById('totalProfit').textContent = '$145';
+            document.getElementById('yield').textContent = '5.8%';
+            document.getElementById('activeInvestments').textContent = '$2500';
+
+            // Обработчик для кнопки "Назад"
+            const backButton = document.getElementById('backButton');
+            if (backButton) {
+                backButton.addEventListener('click', function() {
+                    window.location.href = 'index.html';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
