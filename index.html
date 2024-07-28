@@ -213,17 +213,18 @@ function initializeBackButton() {
         function updateBalance(newBalance) {
             document.querySelector('.balance').textContent = `$${newBalance.toFixed(2)}`;
         }
-    function showScreen(screenName) {
+function showScreen(screenName) {
+    const baseUrl = 'https://angidrid23.github.io/smartdef.github.io/index.html'; // Замените на ваш URL
     if (screenName === 'invest') {
-        window.location.href = 'invest.html';
+        window.location.href = baseUrl + 'invest.html';
     } else if (screenName === 'deposit') {
-        window.location.href = 'deposit.html';
+        window.location.href = baseUrl + 'deposit.html';
     } else if (screenName === 'withdraw') {
-        window.location.href = 'withdraw.html';
+        window.location.href = baseUrl + 'withdraw.html';
     } else if (screenName === 'analytics') {
-        window.location.href = 'analytics.html';
+        window.location.href = baseUrl + 'analytics.html';
     } else if (screenName === 'profile') {
-        window.location.href = 'profile.html';
+        window.location.href = baseUrl + 'profile.html';
     } else {
         console.log(`Showing ${screenName} screen`);
         alert(`Переход на экран: ${screenName}`);
