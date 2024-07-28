@@ -64,9 +64,9 @@
     </div>
 
     <div class="menu">
-        <div class="menu-item">Инвестиции</div>
-        <div class="menu-item">Аналитика</div>
-        <div class="menu-item">Профиль</div>
+        <div class="menu-item" data-screen="investments">Инвестиции</div>
+        <div class="menu-item" data-screen="analytics">Аналитика</div>
+        <div class="menu-item" data-screen="profile">Профиль</div>
     </div>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -93,27 +93,33 @@
         });
     
         // Обработчики пунктов меню
-        document.querySelectorAll('.menu-item').forEach((item, index) => {
+document.querySelectorAll('.menu-item').forEach((item, index) => {
     item.addEventListener('click', () => {
-        const screens = ['investments', 'analytics', 'profile'];
-        showScreen(screens[index]);
+        const screenName = item.getAttribute('data-screen');
+        if (screenName) {
+            showScreen(screenName);
+        }
     });
 });
     
         // Функция для показа экранов
-        function showScreen(screenName) {
+function showScreen(screenName) {
+    const baseUrl = 'https://angidrid23.github.io/smartdef.github.io/';
     switch(screenName) {
         case 'invest':
-            window.location.href = 'invest.html';
+            window.location.href = baseUrl + 'invest.html';
             break;
         case 'deposit':
-            window.location.href = 'deposit.html';
+            window.location.href = baseUrl + 'deposit.html';
             break;
         case 'withdraw':
-            window.location.href = 'withdraw.html';
+            window.location.href = baseUrl + 'withdraw.html';
             break;
         case 'analytics':
-            window.location.href = 'analytics.html';
+            window.location.href = baseUrl + 'analytics.html';
+            break;
+        case 'profile':
+            window.location.href = baseUrl + 'profile.html';
             break;
         default:
             console.log(`Showing ${screenName} screen`);
