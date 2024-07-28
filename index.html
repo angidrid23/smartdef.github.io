@@ -75,8 +75,8 @@
     </div>
 
     <div class="menu">
-        <div class="menu-item">Инвестиции</div>
-        <div class="menu-item">Аналитика</div>
+        <div class="menu-item" data-screen="investments">Инвестиции</div>
+        <div class="menu-item" data-screen="analytics">Аналитика</div>
         <div class="menu-item" data-screen="profile">Профиль</div>
     </div>
 
@@ -91,17 +91,9 @@
         tg.expand();
     
         // Обработчики кнопок
-        document.querySelector('.invest').addEventListener('click', () => {
-            showScreen('invest');
-        });
-    
-        document.querySelector('.deposit').addEventListener('click', () => {
-            showScreen('deposit');
-        });
-    
-        document.querySelector('.withdraw').addEventListener('click', () => {
-            showScreen('withdraw');
-        });
+        document.querySelector('.invest').addEventListener('click', () => showScreen('invest'));
+        document.querySelector('.deposit').addEventListener('click', () => showScreen('deposit'));
+        document.querySelector('.withdraw').addEventListener('click', () => showScreen('withdraw'));
     
         // Обработчики пунктов меню
         document.querySelectorAll('.menu-item').forEach((item) => {
@@ -194,7 +186,8 @@ function initializeBackButton() {
         }
         // Функция для показа экранов
 function showScreen(screenName) {
-    const baseUrl = 'https://angidrid23.github.io/smartdef.github.io/'; // Убрали index.html из базового URL
+    const baseUrl = 'https://angidrid23.github.io/smartdef.github.io/';
+    console.log('Переход на экран:', screenName);
     if (screenName === 'invest') {
         window.location.href = baseUrl + 'invest.html';
     } else if (screenName === 'deposit') {
@@ -206,7 +199,7 @@ function showScreen(screenName) {
     } else if (screenName === 'profile') {
         window.location.href = baseUrl + 'profile.html';
     } else {
-        console.log(`Showing ${screenName} screen`);
+        console.log(`Неизвестный экран: ${screenName}`);
         alert(`Переход на экран: ${screenName}`);
     }
 }
