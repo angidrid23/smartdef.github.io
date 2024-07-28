@@ -6,10 +6,21 @@
     <title>SmartDef - Инвестиции</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* Стили */
+        #backButton {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 5px 10px;
+    background-color: var(--tg-theme-button-color, #3390ec);
+    color: var(--tg-theme-button-text-color, #ffffff);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
     </style>
 </head>
 <body>
+        <button id="backButton" style="position: absolute; top: 10px; left: 10px;">Назад</button>
     <div class="container">
         <h1>Мои инвестиции</h1>
         <div id="investmentsList">
@@ -29,7 +40,13 @@
             // Здесь код для загрузки и отображения инвестиций
             loadInvestments();
         });
-
+            const backButton = document.getElementById('backButton');
+            if (backButton) {
+                backButton.addEventListener('click', function() {
+                    window.location.href = 'index.html';
+                });
+            }
+        });
         function loadInvestments() {
             // Здесь должен быть запрос к серверу для получения данных
             // Для примера используем моковые данные
