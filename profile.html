@@ -55,6 +55,7 @@
     </style>
 </head>
 <body>
+    <button id="backButton" style="position: absolute; top: 10px; left: 10px;">Назад</button>
     <div class="container">
         <h1>Профиль пользователя</h1>
         <div class="profile-info">
@@ -77,24 +78,41 @@
         </div>
         <button id="saveButton" class="save-button">Сохранить изменения</button>
     </div>
-    <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand();
-    
-        document.addEventListener('DOMContentLoaded', function() {
-            const saveButton = document.getElementById('saveButton');
-            saveButton.addEventListener('click', function() {
-                const username = document.getElementById('username').value;
-                const email = document.getElementById('email').value;
-                const investmentStrategy = document.getElementById('investmentStrategy').value;
-                
-                // Здесь вы можете добавить логику для сохранения данных
-                console.log('Сохранено:', { username, email, investmentStrategy });
-                
-                // Показываем уведомление пользователю
-                tg.showAlert('Профиль успешно обновлен!');
-            });
+<script>
+    let tg = window.Telegram.WebApp;
+    tg.expand();
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const saveButton = document.getElementById('saveButton');
+        saveButton.addEventListener('click', function() {
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const investmentStrategy = document.getElementById('investmentStrategy').value;
+            
+            // Здесь вы можете добавить логику для сохранения данных
+            console.log('Сохранено:', { username, email, investmentStrategy });
+            
+            // Показываем уведомление пользователю
+            tg.showAlert('Профиль успешно обновлен!');
         });
-    </script>
+
+        const backButton = document.getElementById('backButton');
+        if (backButton) {
+            backButton.addEventListener('click', function() {
+                window.location.href = 'index.html';
+            });
+        }
+    });
+</script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const backButton = document.getElementById('backButton');
+        if (backButton) {
+            backButton.addEventListener('click', function() {
+                window.location.href = 'index.html';
+            });
+        }
+    });
+</script>
 </body>
 </html>
