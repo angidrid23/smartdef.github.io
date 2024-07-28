@@ -84,6 +84,8 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         const saveButton = document.getElementById('saveButton');
+        const backButton = document.getElementById('backButton');
+
         saveButton.addEventListener('click', function() {
             const username = document.getElementById('username').value;
             const email = document.getElementById('email').value;
@@ -96,17 +98,6 @@
             tg.showAlert('Профиль успешно обновлен!');
         });
 
-        const backButton = document.getElementById('backButton');
-        if (backButton) {
-            backButton.addEventListener('click', function() {
-                window.location.href = 'index.html';
-            });
-        }
-    });
-</script>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const backButton = document.getElementById('backButton');
         if (backButton) {
             backButton.addEventListener('click', function() {
                 window.location.href = 'index.html';
