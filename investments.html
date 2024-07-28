@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartDef - Инвестиции</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        /* Стили */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Мои инвестиции</h1>
+        <div id="investmentsList">
+            <!-- Здесь будет список инвестиций -->
+        </div>
+        <div class="summary">
+            <p>Общая сумма инвестиций: <span id="totalInvestment"></span></p>
+            <p>Средняя доходность: <span id="averageYield"></span></p>
+        </div>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Здесь код для загрузки и отображения инвестиций
+            loadInvestments();
+        });
+
+        function loadInvestments() {
+            // Здесь должен быть запрос к серверу для получения данных
+            // Для примера используем моковые данные
+            const investments = [
+                { name: "USDT-USDC пул", amount: 500, currentValue: 525, yield: 5, date: "2024-07-01" },
+                { name: "USDT-DAI пул", amount: 300, currentValue: 309, yield: 3, date: "2024-07-15" }
+            ];
+
+            const listElement = document.getElementById('investmentsList');
+            investments.forEach(inv => {
+                listElement.innerHTML += `
+                    <div class="investment-item">
+                        <h3>${inv.name}</h3>
+                        <p>Вложено: $${inv.amount}</p>
+                        <p>Текущая стоимость: $${inv.currentValue}</p>
+                        <p>Доходность: ${inv.yield}%</p>
+                        <p>Дата: ${inv.date}</p>
+                    </div>
+                `;
+            });
+
+            // Обновление общей статистики
+            updateSummary(investments);
+        }
+
+        function updateSummary(investments) {
+            const total = investments.reduce((sum, inv) => sum + inv.currentValue, 0);
+            const avgYield = investments.reduce((sum, inv) => sum + inv.yield, 0) / investments.length;
+
+            document.getElementById('totalInvestment').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('averageYield').textContent = `${avgYield.toFixed(2)}%`;
+        }
+    </script>
+</body>
+</html>
