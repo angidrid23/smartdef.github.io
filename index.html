@@ -93,10 +93,12 @@
         });
     
         // Обработчики пунктов меню
-document.querySelectorAll('.menu-item').forEach((item, index) => {
+
+        document.querySelectorAll('.menu-item').forEach((item) => {
     item.addEventListener('click', () => {
         const screenName = item.getAttribute('data-screen');
         if (screenName) {
+            tg.MainButton.hide();
             showScreen(screenName);
         }
     });
@@ -230,6 +232,7 @@ function initializeBackButton() {
     }
     return true;
 }
+        tg.MainButton.hide();
     </script>
 </body>
 </html>
