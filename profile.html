@@ -101,6 +101,8 @@
         <button id="saveButton">Сохранить изменения</button>
     </div>
     <script>
+        let tg = window.Telegram.WebApp;
+            tg.MainButton.hide();
         document.getElementById('backButton').addEventListener('click', function() {
             window.location.href = 'index.html';
         });
