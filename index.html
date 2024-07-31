@@ -20,29 +20,39 @@
             font-size: 24px;
             font-weight: bold;
         }
-        .actions {
+        .actions-row {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 20px;
-        flex-wrap: wrap;
+        margin-bottom: 10px;
+        }
+        
+        .button {
+            flex: 1;
+            padding: 10px 5px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            margin: 0 5px;
+            text-align: center;
+        }
+    
+        .deposit { background-color: #2196F3; color: white; }
+        .withdraw { background-color: #f44336; color: white; }
+        .invest { background-color: #4CAF50; color: white; }
+        .wallet { background-color: #0088cc; color: white; }
+        
+        /* Для маленьких экранов */
+        @media (max-width: 480px) {
+            .button {
+                font-size: 12px;
+                padding: 8px 5px;
+            }
         }
         .button, .wallet-button {
             flex: 1 0 auto;
             margin: 5px;
             min-width: 120px;
-        }
-        .button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .invest { background-color: #4CAF50; color: white; }
-        .deposit { background-color: #2196F3; color: white; }
-        .withdraw { background-color: #f44336; color: white; }
-        .summary {
-            margin-bottom: 20px;
         }
         .menu-item {
             padding: 10px;
@@ -77,25 +87,24 @@
     <script src="ton-wallet.js"></script>
 <script>
       document.addEventListener('DOMContentLoaded', () => {
-        const connectWalletButton = document.getElementById('connectWallet');
-        if (connectWalletButton) {
-            connectWalletButton.addEventListener('click', async () => {
-                try {
-                    const address = await connectWallet();
-                    if (address) {
-                        connectWalletButton.textContent = `Подключено: ${address.slice(0, 6)}...${address.slice(-4)}`;
-                        connectWalletButton.classList.add('connected');
-                        // Здесь можно добавить логику для отображения баланса или других действий после подключения
-                    } else {
-                        alert('Не удалось подключить кошелек. Пожалуйста, попробуйте еще раз.');
-                    }
-                } catch (error) {
-                    console.error("Ошибка при подключении:", error);
-                    alert('Произошла ошибка при подключении кошелька.');
+    const connectWalletButton = document.getElementById('connectWallet');
+    if (connectWalletButton) {
+        connectWalletButton.addEventListener('click', async () => {
+            try {
+                const address = await connectWallet();
+                if (address) {
+                    connectWalletButton.textContent = `Подключено: ${address.slice(0, 4)}...${address.slice(-4)}`;
+                    connectWalletButton.style.backgroundColor = '#4CAF50';
+                } else {
+                    alert('Не удалось подключить кошелек. Пожалуйста, попробуйте еще раз.');
                 }
-            });
-        }
-    });
+            } catch (error) {
+                console.error("Ошибка при подключении:", error);
+                alert('Произошла ошибка при подключении кошелька.');
+            }
+        });
+    }
+});
 </script>
 </head>
 <body>
@@ -103,13 +112,14 @@
         <h1>SmartDef</h1>
         <div class="balance">$1,000.00</div>
     </div>
-    <button id="connectWallet" class="wallet-button">Подключить TON кошелек</button>
-    <div class="actions">
-        <button id="connectWallet" class="wallet-button">Подключить TON кошелек</button>
-        <button class="button invest">Инвестировать</button>
-        <button class="button deposit">Пополнить</button>
-        <button class="button withdraw">Вывести</button>
-    </div>
+  <div class="actions-row">
+    <button class="button deposit">Пополнить</button>
+    <button class="button withdraw">Вывести</button>
+</div>
+<div class="actions-row">
+    <button class="button invest">Инвестировать</button>
+    <button id="connectWallet" class="button wallet">Подключить TON кошелек</button>
+</div>
 
     <div class="summary">
         <p>Доходность: +5.2% за неделю</p>
