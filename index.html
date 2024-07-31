@@ -116,7 +116,7 @@
 </div>
 <div class="actions-row">
     <button class="button invest">Инвестировать</button>
-    <button id="connectWallet" class="button wallet">Подключить TON кошелек</button>
+    <button id="connectWallet" class="button wallet">Использовать кошелек Telegram</button>
 </div>
 
     <div class="summary">
@@ -295,5 +295,15 @@ function initializeAnalyticsScreen() {
 }
         tg.MainButton.hide();
     </script>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const connectWalletButton = document.getElementById('connectWallet');
+    if (connectWalletButton) {
+        connectWalletButton.addEventListener('click', () => {
+            tg.sendData(JSON.stringify({action: 'requestWalletAddress'}));
+        });
+    }
+});
+</script>
 </body>
 </html>
