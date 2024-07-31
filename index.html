@@ -95,12 +95,10 @@
                 if (address) {
                     connectWalletButton.textContent = `Подключено: ${address.slice(0, 4)}...${address.slice(-4)}`;
                     connectWalletButton.style.backgroundColor = '#4CAF50';
-                } else {
-                    alert('Не удалось подключить кошелек. Пожалуйста, попробуйте еще раз.');
                 }
             } catch (error) {
                 console.error("Ошибка при подключении:", error);
-                alert('Произошла ошибка при подключении кошелька.');
+                tg.showAlert(error.message || 'Произошла ошибка при подключении кошелька. Пожалуйста, попробуйте еще раз.');
             }
         });
     }
