@@ -8,13 +8,21 @@ const connector = new TonConnectSDK.TonConnect(tonConnectManifest);
 
 async function connectWallet() {
   try {
-    await connector.connect();
-    const walletAddress = await connector.getWalletInfo();
-    console.log("Подключенный адрес:", walletAddress);
-    return walletAddress;
+    const walletConnectionSource = {
+      jsBridgeKey: 'tonconnect'
+    };
+    await connector.connect(walletConnectionSource);
+    const walletInfo = await connector.getWalletInfo();
+    console.log("Подключенный адрес:", walletInfo.address);
+    return walletInfo.address;
   } catch (error) {
     console.error("Ошибка при подключении кошелька:", error);
-    return null;
+    if (error.message.includes('User rejected the connection')) {
+      throw new Error('Пользователь отклонил подключение');
+    } else if (error.message.includes('Wallet not found')) {
+      throw new Error('Кошелек не найден. Убедитесь, что у вас установлен TON кошелек');
+    }
+    throw error;
   }
 }
 
