@@ -123,9 +123,9 @@
     </div>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    //<script>
-        // Здесь будет JavaScript код для обработки взаимодействий
-    //</script>
+    
+        
+   
     <script>
         let tg = window.Telegram.WebApp;
     
@@ -253,15 +253,15 @@ function initializeAnalyticsScreen() {
     document.getElementById('totalProfit').textContent = '$145';
     document.getElementById('yield').textContent = '5.8%';
     document.getElementById('activeInvestments').textContent = '$2500';
-}
-function initializeBackButton() {
-    const backButton = document.getElementById('backButton');
-    if (backButton) {
-        backButton.addEventListener('click', () => {
-            location.reload();
-        });
     }
-}
+    function initializeBackButton() {
+        const backButton = document.getElementById('backButton');
+        if (backButton) {
+            backButton.addEventListener('click', () => {
+                location.reload();
+            });
+        }
+    }
         // Обновление баланса (пример динамического обновления данных)
         function updateBalance(newBalance) {
             document.querySelector('.balance').textContent = `$${newBalance.toFixed(2)}`;
