@@ -20,39 +20,23 @@
             font-size: 24px;
             font-weight: bold;
         }
-        .actions-row {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
         }
-        
         .button {
-            flex: 1;
-            padding: 10px 5px;
+            padding: 10px 20px;
             border: none;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 16px;
             cursor: pointer;
-            margin: 0 5px;
-            text-align: center;
         }
-    
+        .invest { background-color: #4CAF50; color: white; }
         .deposit { background-color: #2196F3; color: white; }
         .withdraw { background-color: #f44336; color: white; }
-        .invest { background-color: #4CAF50; color: white; }
-        .wallet { background-color: #0088cc; color: white; }
-        
-        /* Для маленьких экранов */
-        @media (max-width: 480px) {
-            .button {
-                font-size: 12px;
-                padding: 8px 5px;
-            }
-        }
-        .button, .wallet-button {
-            flex: 1 0 auto;
-            margin: 5px;
-            min-width: 120px;
+        .summary {
+            margin-bottom: 20px;
         }
         .menu-item {
             padding: 10px;
@@ -60,64 +44,19 @@
             background-color: var(--tg-theme-secondary-bg-color, #f0f0f0);
             border-radius: 8px;
         }
-        .wallet-button {
-        display: block;
-        width: 100%;
-        padding: 10px 20px;
-        margin-bottom: 15px;
-        background-color: #0088cc; /* Цвет TON */
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        }
-        
-        .wallet-button:hover {
-            background-color: #0077b3;
-        }
-        
-        .wallet-button.connected {
-            background-color: #4CAF50;
-        }
     </style>
-    <script src="https://unpkg.com/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js"></script>
-    <script src="https://unpkg.com/tonweb@latest/dist/tonweb.js"></script>
-    <script src="ton-wallet.js"></script>
-<script>
-     document.addEventListener('DOMContentLoaded', () => {
-    const connectWalletButton = document.getElementById('connectWallet');
-    if (connectWalletButton) {
-        connectWalletButton.addEventListener('click', async () => {
-            try {
-                const address = await connectWallet();
-                if (address) {
-                    connectWalletButton.textContent = `Подключено: ${address.slice(0, 4)}...${address.slice(-4)}`;
-                    connectWalletButton.style.backgroundColor = '#4CAF50';
-                }
-            } catch (error) {
-                console.error("Ошибка при подключении:", error);
-                tg.showAlert(error.message || 'Произошла ошибка при подключении кошелька. Пожалуйста, попробуйте еще раз.');
-            }
-        });
-    }
-});
-</script>
 </head>
 <body>
     <div class="header">
         <h1>SmartDef</h1>
         <div class="balance">$1,000.00</div>
     </div>
-  <div class="actions-row">
-    <button class="button deposit">Пополнить</button>
-    <button class="button withdraw">Вывести</button>
-</div>
-<div class="actions-row">
-    <button class="button invest">Инвестировать</button>
-    <button id="connectWallet" class="button wallet">Использовать кошелек Telegram</button>
-</div>
+
+    <div class="actions">
+        <button class="button invest">Стратегии</button>
+        <button class="button deposit">Пополнить</button>
+        <button class="button withdraw">Вывести</button>
+    </div>
 
     <div class="summary">
         <p>Доходность: +5.2% за неделю</p>
@@ -125,15 +64,15 @@
     </div>
 
     <div class="menu">
-        <div class="menu-item" data-screen="investments">Инвестиции</div>
-        <div class="menu-item" data-screen="analytics">Аналитика</div>
-        <div class="menu-item" data-screen="profile">Профиль</div>
+        <div class="menu-item">Портфель</div>
+        <div class="menu-item">Аналитика</div>
+        <div class="menu-item">Профиль</div>
     </div>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    
-        
-   
+    <script>
+        // Здесь будет JavaScript код для обработки взаимодействий
+    </script>
     <script>
         let tg = window.Telegram.WebApp;
     
@@ -142,7 +81,7 @@
     
         // Обработчики кнопок
         document.querySelector('.invest').addEventListener('click', () => {
-            showScreen('invest');
+            showScreen('strategies');
         });
     
         document.querySelector('.deposit').addEventListener('click', () => {
@@ -154,38 +93,30 @@
         });
     
         // Обработчики пунктов меню
-
-        document.querySelectorAll('.menu-item').forEach((item) => {
+        document.querySelectorAll('.menu-item').forEach((item, index) => {
     item.addEventListener('click', () => {
-        const screenName = item.getAttribute('data-screen');
-        if (screenName) {
-            tg.MainButton.hide();
-            showScreen(screenName);
-        }
+        const screens = ['portfolio', 'analytics', 'profile'];
+        showScreen(screens[index]);
     });
 });
     
         // Функция для показа экранов
-function showScreen(screenName) {
-    const baseUrl = 'https://angidrid23.github.io/smartdef.github.io/';
+        function showScreen(screenName) {
     switch(screenName) {
-        case 'invest':
-            window.location.href = baseUrl + 'invest.html';
+        case 'strategies':
+            window.location.href = 'strategies.html';
+            break;
+        case 'portfolio':
+            window.location.href = 'portfolio.html';
             break;
         case 'deposit':
-            window.location.href = baseUrl + 'deposit.html';
+            window.location.href = 'deposit.html';
             break;
         case 'withdraw':
-            window.location.href = baseUrl + 'withdraw.html';
+            window.location.href = 'withdraw.html';
             break;
         case 'analytics':
-            window.location.href = baseUrl + 'analytics.html';
-            break;
-        case 'profile':
-            window.location.href = baseUrl + 'profile.html';
-            break;
-        case 'investments':
-            window.location.href = baseUrl + 'investments.html';
+            window.location.href = 'analytics.html';
             break;
         default:
             console.log(`Showing ${screenName} screen`);
@@ -261,15 +192,15 @@ function initializeAnalyticsScreen() {
     document.getElementById('totalProfit').textContent = '$145';
     document.getElementById('yield').textContent = '5.8%';
     document.getElementById('activeInvestments').textContent = '$2500';
+}
+function initializeBackButton() {
+    const backButton = document.getElementById('backButton');
+    if (backButton) {
+        backButton.addEventListener('click', () => {
+            location.reload();
+        });
     }
-    function initializeBackButton() {
-        const backButton = document.getElementById('backButton');
-        if (backButton) {
-            backButton.addEventListener('click', () => {
-                location.reload();
-            });
-        }
-    }
+}
         // Обновление баланса (пример динамического обновления данных)
         function updateBalance(newBalance) {
             document.querySelector('.balance').textContent = `$${newBalance.toFixed(2)}`;
@@ -293,17 +224,6 @@ function initializeAnalyticsScreen() {
     }
     return true;
 }
-        tg.MainButton.hide();
     </script>
-    <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const connectWalletButton = document.getElementById('connectWallet');
-    if (connectWalletButton) {
-        connectWalletButton.addEventListener('click', () => {
-            tg.sendData(JSON.stringify({action: 'requestWalletAddress'}));
-        });
-    }
-});
-</script>
 </body>
 </html>

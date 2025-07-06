@@ -1,0 +1,22 @@
+{
+  "name": "smartdef",
+  "version": "1.0.0",
+  "description": "SmartDef - DeFi Investment Telegram Web App",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build": "echo 'No build step required'"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "keywords": ["defi", "telegram", "webapp", "investment"],
+  "author": "SmartDef Team",
+  "license": "MIT"
+} 

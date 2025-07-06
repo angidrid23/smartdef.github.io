@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartDef - Портфель</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 16px;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 8px 12px;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .portfolio-summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .total-value {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .total-profit {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .profit-positive {
+            color: #4CAF50;
+        }
+        .profit-negative {
+            color: #f44336;
+        }
+        .strategy-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            background-color: #fafafa;
+        }
+        .strategy-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .strategy-name {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .strategy-status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .status-active {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .status-pending {
+            background-color: #FF9800;
+            color: white;
+        }
+        .investment-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .detail-item {
+            text-align: center;
+        }
+        .detail-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .detail-value {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .protocols-list {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .button {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .button-primary {
+            background-color: #2196F3;
+            color: white;
+        }
+        .button-secondary {
+            background-color: #f44336;
+            color: white;
+        }
+        .empty-portfolio {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+        .empty-portfolio h3 {
+            margin-bottom: 10px;
+        }
+        .start-investing-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="window.location.href='index.html'">← Назад</button>
+    
+    <div class="header">
+        <h1>Мой портфель</h1>
+    </div>
+
+    <div class="portfolio-summary">
+        <div class="total-value">$2,847.32</div>
+        <div class="total-profit profit-positive">+$147.32 (+5.45%)</div>
+        <div>За последние 30 дней</div>
+    </div>
+
+    <div id="portfolio-content">
+        <!-- Активные инвестиции будут загружены динамически -->
+    </div>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        // Пример данных портфеля
+        const portfolioData = {
+            totalValue: 2847.32,
+            totalProfit: 147.32,
+            profitPercentage: 5.45,
+            investments: [
+                {
+                    id: 1,
+                    strategy: 'Консервативная',
+                    amount: 1000,
+                    currentValue: 1045.20,
+                    profit: 45.20,
+                    profitPercentage: 4.52,
+                    status: 'active',
+                    startDate: '2024-01-15',
+                    protocols: ['Aave', 'Compound', 'Uniswap V3'],
+                    allocation: {
+                        'Стейблкоины': 60,
+                        'Лендинг': 30,
+                        'DEX': 10
+                    }
+                },
+                {
+                    id: 2,
+                    strategy: 'Умеренная',
+                    amount: 1500,
+                    currentValue: 1580.12,
+                    profit: 80.12,
+                    profitPercentage: 5.34,
+                    status: 'active',
+                    startDate: '2024-01-20',
+                    protocols: ['Yearn Finance', 'SushiSwap', 'Balancer'],
+                    allocation: {
+                        'Стейблкоины': 40,
+                        'Yield Farming': 35,
+                        'DeFi': 25
+                    }
+                },
+                {
+                    id: 3,
+                    strategy: 'Агрессивная',
+                    amount: 500,
+                    currentValue: 222.00,
+                    profit: 22.00,
+                    profitPercentage: 4.40,
+                    status: 'pending',
+                    startDate: '2024-01-25',
+                    protocols: ['Yearn Finance', 'SushiSwap', 'New Protocols'],
+                    allocation: {
+                        'Стейблкоины': 20,
+                        'Yield Farming': 50,
+                        'Рискованные пулы': 30
+                    }
+                }
+            ]
+        };
+
+        function renderPortfolio() {
+            const container = document.getElementById('portfolio-content');
+            
+            if (portfolioData.investments.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-portfolio">
+                        <h3>У вас пока нет активных инвестиций</h3>
+                        <p>Начните инвестировать, выбрав подходящую стратегию</p>
+                        <button class="start-investing-btn" onclick="window.location.href='strategies.html'">
+                            Начать инвестировать
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            
+            portfolioData.investments.forEach(investment => {
+                const profitClass = investment.profit >= 0 ? 'profit-positive' : 'profit-negative';
+                const profitSign = investment.profit >= 0 ? '+' : '';
+                const statusClass = investment.status === 'active' ? 'status-active' : 'status-pending';
+                const statusText = investment.status === 'active' ? 'Активна' : 'В обработке';
+                
+                html += `
+                    <div class="strategy-card">
+                        <div class="strategy-header">
+                            <div class="strategy-name">${investment.strategy}</div>
+                            <div class="strategy-status ${statusClass}">${statusText}</div>
+                        </div>
+                        
+                        <div class="investment-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Инвестировано</div>
+                                <div class="detail-value">$${investment.amount.toFixed(2)}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Текущая стоимость</div>
+                                <div class="detail-value">$${investment.currentValue.toFixed(2)}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Прибыль</div>
+                                <div class="detail-value ${profitClass}">${profitSign}$${investment.profit.toFixed(2)}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Доходность</div>
+                                <div class="detail-value ${profitClass}">${profitSign}${investment.profitPercentage.toFixed(2)}%</div>
+                            </div>
+                        </div>
+                        
+                        <div class="protocols-list">
+                            <strong>Протоколы:</strong> ${investment.protocols.join(', ')}
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button class="button button-primary" onclick="showDetails(${investment.id})">
+                                Детали
+                            </button>
+                            <button class="button button-secondary" onclick="withdrawInvestment(${investment.id})">
+                                Вывести
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function showDetails(investmentId) {
+            const investment = portfolioData.investments.find(inv => inv.id === investmentId);
+            if (!investment) return;
+            
+            let allocationHtml = '';
+            Object.entries(investment.allocation).forEach(([key, value]) => {
+                allocationHtml += `<div>• ${key}: ${value}%</div>`;
+            });
+            
+            const details = `
+Стратегия: ${investment.strategy}
+Дата начала: ${investment.startDate}
+Инвестировано: $${investment.amount.toFixed(2)}
+Текущая стоимость: $${investment.currentValue.toFixed(2)}
+Прибыль: $${investment.profit.toFixed(2)} (${investment.profitPercentage.toFixed(2)}%)
+
+Распределение:
+${allocationHtml}
+
+Протоколы: ${investment.protocols.join(', ')}
+            `;
+            
+            alert(details);
+        }
+
+        function withdrawInvestment(investmentId) {
+            const investment = portfolioData.investments.find(inv => inv.id === investmentId);
+            if (!investment) return;
+            
+            const confirmMessage = `Вы уверены, что хотите вывести инвестицию?\n\nСтратегия: ${investment.strategy}\nСумма к выводу: $${investment.currentValue.toFixed(2)}\nПрибыль: $${investment.profit.toFixed(2)}\n\nВывод займет 1-3 рабочих дня.`;
+            
+            if (confirm(confirmMessage)) {
+                alert('Заявка на вывод создана. Вы получите уведомление о статусе.');
+                // Здесь будет логика вывода средств
+            }
+        }
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            renderPortfolio();
+        });
+
+        // Обновление данных каждые 30 секунд (имитация)
+        setInterval(() => {
+            // В реальном приложении здесь будет API запрос
+            console.log('Обновление данных портфеля...');
+        }, 30000);
+    </script>
+</body>
+</html> 
